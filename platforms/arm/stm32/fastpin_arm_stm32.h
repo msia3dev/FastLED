@@ -61,8 +61,9 @@ public:
   #define _FL_IO(L,C) _RD32(GPIO ## L);  _FL_DEFINE_PORT3(L, C, _R(GPIO ## L));
 #elif defined(__STM32F1__)
   #define _R(T) struct __gen_struct_ ## T
+  #define _DEFPIN_ARM(PIN, BIT, L) template<> class FastPin<PIN> : public _ARMPIN<PIN, BIT, 1 << BIT, _R(GPIO ## L)> {};
   #define _RD32(T) struct __gen_struct_ ## T { static __attribute__((always_inline)) inline gpio_reg_map* r() { return T->regs; } };
-  #define _FL_IO(L,C) _RD32(GPIO ## L); _FL_DEFINE_PORT3(L, C, _R(GPIO ## L));
+  #define _IO32(L) _RD32(GPIO ## L)
 #else
  #error "Platform not supported"
 #endif
@@ -128,41 +129,45 @@ _FL_DEFPIN(19, 2, A);
 
 #if defined(__STM32F1__) // Generic STM32F103 aka "Blue Pill"
 
-#define MAX_PIN 46
+_IO32(A); _IO32(B); _IO32(C); _IO32(D);
 
-_FL_DEFPIN(10, 0, A);	// PA0 - PA7
-_FL_DEFPIN(11, 1, A);
-_FL_DEFPIN(12, 2, A);
-_FL_DEFPIN(13, 3, A);
-_FL_DEFPIN(14, 4, A);
-_FL_DEFPIN(15, 5, A);
-_FL_DEFPIN(16, 6, A);
-_FL_DEFPIN(17, 7, A);
-_FL_DEFPIN(29, 8, A);	// PA8 - PA15
-_FL_DEFPIN(30, 9, A);
-_FL_DEFPIN(31, 10, A);
-_FL_DEFPIN(32, 11, A);
-_FL_DEFPIN(33, 12, A);
-_FL_DEFPIN(34, 13, A);
-_FL_DEFPIN(37, 14, A);
-_FL_DEFPIN(38, 15, A);
+#define MAX_PIN PB1
 
-_FL_DEFPIN(18, 0, B);	// PB0 - PB11
-_FL_DEFPIN(19, 1, B);
-_FL_DEFPIN(20, 2, B);
-_FL_DEFPIN(39, 3, B);
-_FL_DEFPIN(40, 4, B);
-_FL_DEFPIN(41, 5, B);
-_FL_DEFPIN(42, 6, B);
-_FL_DEFPIN(43, 7, B);
-_FL_DEFPIN(45, 8, B);
-_FL_DEFPIN(46, 9, B);
-_FL_DEFPIN(21, 10, B);
-_FL_DEFPIN(22, 11, B);
-
-_FL_DEFPIN(2, 13, C);	// PC13 - PC15
-_FL_DEFPIN(3, 14, C);
-_FL_DEFPIN(4, 15, C);
+_DEFPIN_ARM(PB11, 11, B);
+_DEFPIN_ARM(PB10, 10, B);
+_DEFPIN_ARM(PB2, 2, B);
+_DEFPIN_ARM(PB0, 0, B);
+_DEFPIN_ARM(PA7, 7, A);
+_DEFPIN_ARM(PA6, 6, A);
+_DEFPIN_ARM(PA5, 5, A);
+_DEFPIN_ARM(PA4, 4, A);
+_DEFPIN_ARM(PA3, 3, A);
+_DEFPIN_ARM(PA2, 2, A);
+_DEFPIN_ARM(PA1, 1, A);
+_DEFPIN_ARM(PA0, 0, A);
+_DEFPIN_ARM(PC15, 15, C);
+_DEFPIN_ARM(PC14, 14, C);
+_DEFPIN_ARM(PC13, 13, C);
+_DEFPIN_ARM(PB7, 7, B);
+_DEFPIN_ARM(PB6, 6, B);
+_DEFPIN_ARM(PB5, 5, B);
+_DEFPIN_ARM(PB4, 4, B);
+_DEFPIN_ARM(PB3, 3, B);
+_DEFPIN_ARM(PA15, 15, A);
+_DEFPIN_ARM(PA14, 14, A);
+_DEFPIN_ARM(PA13, 13, A);
+_DEFPIN_ARM(PA12, 12, A);
+_DEFPIN_ARM(PA11, 11, A);
+_DEFPIN_ARM(PA10, 10, A);
+_DEFPIN_ARM(PA9, 9, A);
+_DEFPIN_ARM(PA8, 8, A);
+_DEFPIN_ARM(PB15, 15, B);
+_DEFPIN_ARM(PB14, 14, B);
+_DEFPIN_ARM(PB13, 13, B);
+_DEFPIN_ARM(PB12, 12, B);
+_DEFPIN_ARM(PB8, 8, B);
+_DEFPIN_ARM(PB9, 9, B);
+_DEFPIN_ARM(PB1, 1, B);
 
 #define SPI_DATA BOARD_SPI1_MOSI_PIN
 #define SPI_CLOCK BOARD_SPI1_SCK_PIN
