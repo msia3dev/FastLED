@@ -1,7 +1,9 @@
 #pragma once
 #include <SPI.h>
 
-#pragma message "NOTE: Using SPI DMA to drive LED strip!"
+#ifndef FASTLED_INTERNAL
+  #pragma message "NOTE: Using SPI DMA to drive LED strip!"
+#endif
 
 FASTLED_NAMESPACE_BEGIN
 
