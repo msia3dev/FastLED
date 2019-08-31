@@ -83,10 +83,11 @@ private:
         uint16_t i = 0;
         // Setup the pixel controller and load/scale the first byte
         m_pixels.preStepFirstByteDithering();
-        r = m_pixels.loadAndScale0();
+        // WS2812B expects data in GRB order, so this is how it's stored in buffer
+        g = m_pixels.loadAndScale0();
         while(m_pixels.has(1)) {
             m_pixels.stepDithering();
-            g = m_pixels.loadAndScale1();
+            r = m_pixels.loadAndScale1();
             b = m_pixels.loadAndScale2();
             this->setPixelColor(i++, r, g, b);
             r = m_pixels.advanceAndLoadAndScale0();
